@@ -37,11 +37,8 @@ public class PayrollCalculator {
     ) {
         validatePayrollInputs(employeeId, hoursWorked, hourlyRate);
 
-        Employee employee = repository.findById(employeeId);
-
-        if (employee == null) {
-            throw new EmployeeNotFoundException(employeeId);
-        }
+        Employee employee = repository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException(employeeId));
 
         BigDecimal grossPay = grossPayCalculator.calculateGrossPay(
                 hoursWorked,

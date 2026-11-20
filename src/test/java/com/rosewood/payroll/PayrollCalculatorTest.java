@@ -2,6 +2,7 @@ package com.rosewood.payroll;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,7 +34,7 @@ class PayrollCalculatorTest {
     void calculatesNetPayForRegularHours() {
         EmployeeRepository repository = mock(EmployeeRepository.class);
         when(repository.findById("e1"))
-                .thenReturn(new Employee("e1", "Efua Sarpong"));
+                .thenReturn(Optional.of(new Employee("e1", "Efua Sarpong")));
 
         BigDecimal result = createCalculator(repository)
                 .calculateNetPay("e1", 40, new BigDecimal("20.00"));
@@ -45,7 +46,7 @@ class PayrollCalculatorTest {
     void calculatesNetPayIncludingOvertime() {
         EmployeeRepository repository = mock(EmployeeRepository.class);
         when(repository.findById("e1"))
-                .thenReturn(new Employee("e1", "Efua Sarpong"));
+                .thenReturn(Optional.of(new Employee("e1", "Efua Sarpong")));
 
         BigDecimal result = createCalculator(repository)
                 .calculateNetPay("e1", 50, new BigDecimal("30.00"));
@@ -57,7 +58,7 @@ class PayrollCalculatorTest {
     void calculatesNetPayForLowerTaxBand() {
         EmployeeRepository repository = mock(EmployeeRepository.class);
         when(repository.findById("e1"))
-                .thenReturn(new Employee("e1", "Efua Sarpong"));
+                .thenReturn(Optional.of(new Employee("e1", "Efua Sarpong")));
 
         BigDecimal result = createCalculator(repository)
                 .calculateNetPay("e1", 35, new BigDecimal("25.00"));
@@ -68,7 +69,7 @@ class PayrollCalculatorTest {
     @Test
     void throwsExceptionWhenEmployeeDoesNotExist() {
         EmployeeRepository repository = mock(EmployeeRepository.class);
-        when(repository.findById("unknown")).thenReturn(null);
+        when(repository.findById("unknown")).thenReturn(Optional.empty());
 
         EmployeeNotFoundException exception = assertThrows(
                 EmployeeNotFoundException.class,
@@ -189,7 +190,7 @@ class PayrollCalculatorTest {
     void acceptsZeroHoursWorked() {
         EmployeeRepository repository = mock(EmployeeRepository.class);
         when(repository.findById("e1"))
-                .thenReturn(new Employee("e1", "Efua Sarpong"));
+                .thenReturn(Optional.of(new Employee("e1", "Efua Sarpong")));
 
         BigDecimal result = createCalculator(repository)
                 .calculateNetPay("e1", 0, new BigDecimal("20.00"));
@@ -201,7 +202,7 @@ class PayrollCalculatorTest {
     void acceptsZeroHourlyRate() {
         EmployeeRepository repository = mock(EmployeeRepository.class);
         when(repository.findById("e1"))
-                .thenReturn(new Employee("e1", "Efua Sarpong"));
+                .thenReturn(Optional.of(new Employee("e1", "Efua Sarpong")));
 
         BigDecimal result = createCalculator(repository)
                 .calculateNetPay("e1", 40, BigDecimal.ZERO);
