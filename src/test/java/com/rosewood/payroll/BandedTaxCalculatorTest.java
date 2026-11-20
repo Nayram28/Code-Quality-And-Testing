@@ -95,8 +95,8 @@ class BandedTaxCalculatorTest {
                 List.of(new LowTaxBand(), new MediumTaxBand())
         );
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        NoApplicableTaxBandException exception = assertThrows(
+                NoApplicableTaxBandException.class,
                 () -> incomplete.calculateTax(new BigDecimal("6000.00"))
         );
 

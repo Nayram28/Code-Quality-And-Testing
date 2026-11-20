@@ -32,9 +32,7 @@ public class BandedTaxCalculator implements TaxCalculator {
         TaxBand applicableBand = taxBands.stream()
                 .filter(band -> band.appliesTo(grossPay))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "No tax band found for gross pay: " + grossPay
-                ));
+                .orElseThrow(() -> new NoApplicableTaxBandException(grossPay));
 
         return applicableBand.calculateTax(grossPay);
     }
