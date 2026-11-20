@@ -8,13 +8,13 @@ public class PayrollCalculator {
     private final EmployeeRepository repository;
     private final GrossPayCalculator grossPayCalculator;
     private final TaxCalculator taxCalculator;
-    private final PayrollReportPrinter reportPrinter;
+    private final PayrollReporter reporter;
 
     public PayrollCalculator(
             EmployeeRepository repository,
             GrossPayCalculator grossPayCalculator,
             TaxCalculator taxCalculator,
-            PayrollReportPrinter reportPrinter
+            PayrollReporter reporter
     ) {
         this.repository = Objects.requireNonNull(
                 repository, "Employee repository cannot be null"
@@ -25,8 +25,8 @@ public class PayrollCalculator {
         this.taxCalculator = Objects.requireNonNull(
                 taxCalculator, "Tax calculator cannot be null"
         );
-        this.reportPrinter = Objects.requireNonNull(
-                reportPrinter, "Report printer cannot be null"
+        this.reporter = Objects.requireNonNull(
+                reporter, "Payroll reporter cannot be null"
         );
     }
 
@@ -48,9 +48,11 @@ public class PayrollCalculator {
                 hourlyRate
         );
 
-        BigDecimal netPay = taxCalculator.calculateNetPay(grossPay);
+        BigDecimal tax = taxCalculator.calculateTax(grossPay);
 
-        reportPrinter.printNetPay(employee.getName(), netPay);
+        BigDecimal netPay = grossPay.subtract(tax);
+
+        reporter.reportNetPay(employee, netPay);
 
         return netPay;
     }

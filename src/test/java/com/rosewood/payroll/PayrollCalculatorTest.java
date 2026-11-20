@@ -17,15 +17,15 @@ class PayrollCalculatorTest {
     ) {
         return new PayrollCalculator(
                 repository,
-                new GrossPayCalculator(),
-                new TaxCalculator(
+                new OvertimeGrossPayCalculator(),
+                new BandedTaxCalculator(
                         List.of(
                                 new LowTaxBand(),
                                 new MediumTaxBand(),
                                 new HighTaxBand()
                         )
                 ),
-                new PayrollReportPrinter()
+                new ConsolePayrollReporter()
         );
     }
 

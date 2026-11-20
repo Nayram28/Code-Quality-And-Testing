@@ -9,9 +9,9 @@ public class Demo {
 
         EmployeeRepository repository = new InMemoryEmployeeRepository();
 
-        GrossPayCalculator grossPayCalculator = new GrossPayCalculator();
+        GrossPayCalculator grossPayCalculator = new OvertimeGrossPayCalculator();
 
-        TaxCalculator taxCalculator = new TaxCalculator(
+        TaxCalculator taxCalculator = new BandedTaxCalculator(
                 List.of(
                         new LowTaxBand(),
                         new MediumTaxBand(),
@@ -19,13 +19,13 @@ public class Demo {
                 )
         );
 
-        PayrollReportPrinter reportPrinter = new PayrollReportPrinter();
+        PayrollReporter reporter = new ConsolePayrollReporter();
 
         PayrollCalculator calculator = new PayrollCalculator(
                 repository,
                 grossPayCalculator,
                 taxCalculator,
-                reportPrinter
+                reporter
         );
 
         try {

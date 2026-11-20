@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-class GrossPayCalculatorTest {
+class OvertimeGrossPayCalculatorTest {
 
-    private final GrossPayCalculator calculator = new GrossPayCalculator();
+    private final GrossPayCalculator calculator = new OvertimeGrossPayCalculator();
 
     @Test
     void calculatesGrossPayForStandardWorkingHours() {
